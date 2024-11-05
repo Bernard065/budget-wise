@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BudgetWise
+Budget-Wise is a personal finance platform designed to help users manage their finances with ease. It allows users to track income and expenses, categorize transactions, and assign them to specific accounts for detailed insights. Users can seamlessly import transactions via CSV files or connect their bank accounts through Plaid for automatic data syncing. To monetize the platform's premium services, I am integrating Lemon Squeezy, enabling smooth subscription and payment processing.
 
 ## Getting Started
 
