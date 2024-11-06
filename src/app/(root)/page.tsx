@@ -1,3 +1,11 @@
-export default function Home() {
-  return <div>Bernard</div>;
-}
+import React from "react";
+
+const Home = async () => {
+  return (
+    <>
+      <h1>Home</h1>
+    </>
+  );
+};
+
+export default Home;
