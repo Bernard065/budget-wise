@@ -1,4 +1,4 @@
-import Navbar from "@/components/navigation/Navbar";
+import Header from "@/components/header/Header";
 
 export default function RootLayout({
   children,
@@ -6,9 +6,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main>
-      <Navbar />
-      {children}
-    </main>
+    <>
+      <Header />
+      <main className="px-3 lg:px-14">{children}</main>
+    </>
   );
 }

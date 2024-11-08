@@ -1,11 +1,7 @@
 import React from "react";
 
 const Home = async () => {
-  return (
-    <>
-      <h1>Home</h1>
-    </>
-  );
+  return <div>Benard</div>;
 };
 
 export default Home;
