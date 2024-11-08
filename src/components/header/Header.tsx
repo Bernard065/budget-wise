@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 
 import Navbar from "../navigation/Navbar";
 import HeaderLogo from "./HeaderLogo";
+import WelcomeMsg from "./WelcomeMsg";
 
 const Header = () => {
   return (
@@ -21,6 +22,7 @@ const Header = () => {
             <Loader2 className="size-8 animate-spin text-slate-400" />
           </ClerkLoading>
         </div>
+        <WelcomeMsg />
       </div>
     </header>
   );
