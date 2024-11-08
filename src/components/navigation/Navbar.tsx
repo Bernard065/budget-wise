@@ -1,21 +1,84 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import MobileNavbar from "./MobileNavbar";
+"use client";
+
+import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMedia } from "react-use";
+import { Menu } from "lucide-react";
+
+import NavButton from "./NavButton";
+import { navLinks } from "@/constants";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const isMobile = useMedia("(max-width: 1024px)", false);
+
+  const handleNavigation = (href: string) => {
+    router.push(href);
+    setIsOpen(false);
+  };
+
   return (
-    <nav className="flex-between bg-light-900 fixed z-50 w-full gap-5 p-6 shadow-light-300 sm:px-12">
-      <Link href="/" className="flex items-center gap-1">
-        <Image src="/images/banking.png" width={23} height={23} alt="logo" />
+    <>
+      {isMobile ? (
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="font-normal bg-white/10 hover:bg-white/20 text-white border-none focus:ring-offset-0 focus:ring-transparent outline-none focus:bg-white/30 transition-all"
+              aria-label="Open menu"
+            >
+              <Menu className="size-4" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="bg-light-900 px-4 py-8">
+            <nav className="flex flex-col gap-4">
+              {navLinks.map((item) => {
+                const isActive =
+                  (pathname.includes(item.route) && item.route.length > 1) ||
+                  pathname === item.route;
 
-        <p className="h2-bold text-dark-100 max-sm:hidden">
-          Budget<span className="text-primary-500">Wise</span>
-        </p>
-      </Link>
+                return (
+                  <Button
+                    key={item.route}
+                    variant="ghost"
+                    onClick={() => handleNavigation(item.route)}
+                    className={cn(
+                      "hover:bg-blue-300 hover:text-white transition-colors rounded-2 w-full justify-start",
+                      isActive ? "bg-blue-500 text-white" : "bg-transparent"
+                    )}
+                  >
+                    {item.label}
+                  </Button>
+                );
+              })}
+            </nav>
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <nav className="hidden lg:flex items-center gap-4 overflow-x-auto px-4 py-2">
+          {navLinks.map((item) => {
+            const isActive =
+              (pathname.includes(item.route) && item.route.length > 1) ||
+              pathname === item.route;
 
-      <MobileNavbar />
-    </nav>
+            return (
+              <NavButton
+                key={item.route}
+                href={item.route}
+                label={item.label}
+                isActive={isActive}
+              />
+            );
+          })}
+        </nav>
+      )}
+    </>
   );
 };
 

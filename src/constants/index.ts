@@ -1,12 +1,22 @@
-export const sidebarLinks = [
+export const navLinks = [
   {
-    imgURL: "/icons/home.svg",
     route: "/",
-    label: "Home",
+    label: "Overview",
   },
   {
-    imgURL: "/icons/user.svg",
-    route: "/profile",
-    label: "Profile",
+    route: "/transactions",
+    label: "Transactions",
+  },
+  {
+    route: "/accounts",
+    label: "Accounts",
+  },
+  {
+    route: "/categories",
+    label: "Categories",
+  },
+  {
+    route: "/settings",
+    label: "Settings",
   },
 ];
