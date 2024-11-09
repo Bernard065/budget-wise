@@ -1,6 +1,6 @@
 {
-  "id": "e1ca182b-5711-4add-af89-10e5797d22ed",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "68176a92-f77a-460c-aa95-775b6e836171",
+  "prevId": "21e8306b-92c7-40bb-90fc-ac8efce9cdda",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -13,6 +13,12 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true
+        },
+        "plaid_id": {
+          "name": "plaid_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "name": {
           "name": "name",
