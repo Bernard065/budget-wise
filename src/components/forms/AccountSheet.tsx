@@ -1,4 +1,8 @@
 import React from "react";
+import { z } from "zod";
+
+import AccountForm from "./AccountForm";
+import { insertAccountSchema } from "@/db/schema";
 import {
   Sheet,
   SheetContent,
@@ -7,9 +11,26 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useNewAccount } from "@/hooks/use-new-accounts";
+import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+
+const formSchema = insertAccountSchema.pick({
+  name: true,
+});
+
+type FormValues = z.input<typeof formSchema>;
 
 const AccountSheet = () => {
   const { isOpen, onClose } = useNewAccount();
+
+  const mutation = useCreateAccount();
+
+  const onSubmit = (values: FormValues) => {
+    mutation.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -20,6 +41,12 @@ const AccountSheet = () => {
             Create a new account to track your transactions
           </SheetDescription>
         </SheetHeader>
+
+        <AccountForm
+          onSubmit={onSubmit}
+          disabled={mutation.isPending}
+          defaultValues={{ name: "" }}
+        />
       </SheetContent>
     </Sheet>
   );
