@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMedia } from "react-use";
 import { Menu } from "lucide-react";
@@ -17,10 +17,13 @@ const Navbar = () => {
   const router = useRouter();
   const isMobile = useMedia("(max-width: 1024px)", false);
 
-  const handleNavigation = (href: string) => {
-    router.push(href);
-    setIsOpen(false);
-  };
+  const handleNavigation = useCallback(
+    (href: string) => {
+      router.push(href);
+      setIsOpen(false);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -33,7 +36,7 @@ const Navbar = () => {
               className="font-normal bg-white/10 hover:bg-white/20 text-white border-none focus:ring-offset-0 focus:ring-transparent outline-none focus:bg-white/30 transition-all"
               aria-label="Open menu"
             >
-              <Menu className="size-4" />
+              <Menu size={24} />
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="bg-light-900 px-4 py-8">
@@ -52,6 +55,7 @@ const Navbar = () => {
                       "hover:bg-blue-300 hover:text-white transition-colors rounded-2 w-full justify-start",
                       isActive ? "bg-blue-500 text-white" : "bg-transparent"
                     )}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
                   </Button>
@@ -73,6 +77,7 @@ const Navbar = () => {
                 href={item.route}
                 label={item.label}
                 isActive={isActive}
+                aria-current={isActive ? "page" : undefined}
               />
             );
           })}
