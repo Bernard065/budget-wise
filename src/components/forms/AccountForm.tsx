@@ -65,14 +65,16 @@ const AccountForm = ({
           )}
         />
 
-        <Button>{id ? "Save Changes" : "Create account"}</Button>
+        <Button className="bg-gray-700 rounded text-white">
+          {id ? "Save Changes" : "Create account"}
+        </Button>
 
         {!!id && (
           <Button
             type="button"
             disabled={disabled}
             onClick={handleDelete}
-            className="w-full"
+            className="w-full bg-gray-200 rounded"
             variant="outline"
           >
             <Trash className="size-4 mr-2" /> Delete Account

@@ -1,6 +1,7 @@
 "use client";
- 
+
 import AccountSheet from "@/components/forms/AccountSheet";
+import UpdateAccountSheet from "@/components/forms/UpdateAccountSheet";
 import React from "react";
 import { useMountedState } from "react-use";
 
@@ -12,6 +13,7 @@ const SheetProvider = () => {
   return (
     <>
       <AccountSheet />
+      <UpdateAccountSheet />
     </>
   );
 };
