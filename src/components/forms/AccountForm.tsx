@@ -77,7 +77,7 @@ const AccountForm = ({
             className="w-full bg-gray-200 rounded"
             variant="outline"
           >
-            <Trash className="size-4 mr-2" /> Delete Account
+            <Trash className="size-4 mr-2 text-red-500" /> Delete Account
           </Button>
         )}
       </form>
