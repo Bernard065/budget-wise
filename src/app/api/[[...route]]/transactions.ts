@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
-import { and, desc, eq, gte, inArray, lte } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
@@ -110,7 +110,7 @@ const app = new Hono()
   .post(
     "/",
     clerkMiddleware(),
-    zValidator("json", insertTransactionSchema.pick({ name: true })),
+    zValidator("json", insertTransactionSchema.omit({ id: true })),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
@@ -123,7 +123,6 @@ const app = new Hono()
         .insert(transactions)
         .values({
           id: createId(),
-          userId: auth.userId,
           ...values,
         })
         .returning();
@@ -143,17 +142,29 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const transactionsToDelete = db.$with("transactions_to_delete").as(
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(
+            and(
+              inArray(transactions.id, values.ids),
+              eq(accounts.userId, auth.userId)
+            )
+          )
+      );
+
       const data = await db
+        .with(transactionsToDelete)
         .delete(transactions)
         .where(
-          and(
-            eq(transactions.userId, auth.userId),
-            inArray(transactions.id, values.ids)
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionsToDelete})`
           )
         )
-        .returning({
-          id: transactions.id,
-        });
+        .returning({ id: transactions.id });
 
       return c.json({ data });
     }
