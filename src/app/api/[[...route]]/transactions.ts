@@ -230,10 +230,22 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const transactionsToDelete = db.$with("transactions_to_delete").as(
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
+      );
+
       const [data] = await db
+        .with(transactionsToDelete)
         .delete(transactions)
         .where(
-          and(eq(transactions.userId, auth.userId), eq(transactions.id, id))
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionsToDelete})`
+          )
         )
         .returning({ id: transactions.id });
 
