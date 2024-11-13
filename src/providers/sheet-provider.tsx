@@ -1,9 +1,12 @@
 "use client";
 
-import AccountSheet from "@/components/forms/AccountSheet";
-import UpdateAccountSheet from "@/components/forms/UpdateAccountSheet";
 import React from "react";
 import { useMountedState } from "react-use";
+
+import AccountSheet from "@/components/forms/AccountSheet";
+import CategorySheet from "@/components/forms/CategorySheet";
+import UpdateAccountSheet from "@/components/forms/UpdateAccountSheet";
+import UpdateCategorySheet from "@/components/forms/UpdateCategorySheet";
 
 const SheetProvider = () => {
   const isMounted = useMountedState();
@@ -14,6 +17,9 @@ const SheetProvider = () => {
     <>
       <AccountSheet />
       <UpdateAccountSheet />
+
+      <CategorySheet />
+      <UpdateCategorySheet />
     </>
   );
 };

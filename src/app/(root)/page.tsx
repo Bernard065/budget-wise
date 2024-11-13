@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { useNewAccount } from "@/hooks/use-new-accounts";
+import { useNewAccount } from "@/features/accounts/hooks/use-new-accounts";
 import React from "react";
 
 const Home = () => {
