@@ -36,6 +36,7 @@
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.36.1",
     "drizzle-zod": "^0.5.1",
     "hono": "^4.6.9",
@@ -67,5 +68,10 @@
     "tailwindcss": "^3.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5"
-  }
+  },
+  "description": "Budget-Wise is a personal finance platform designed to help users manage their finances with ease. It allows users to track income and expenses, categorize transactions, and assign them to specific accounts for detailed insights. Users can seamlessly import transactions via CSV files or connect their bank accounts through Plaid for automatic data syncing. To monetize the platform's premium services, I am integrating Lemon Squeezy, enabling smooth subscription and payment processing.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
