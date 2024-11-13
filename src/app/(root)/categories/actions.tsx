@@ -10,9 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useUpdateAccount } from "@/features/accounts/hooks/use-update-account";
-import { useConfirm } from "@/features/accounts/hooks/use-confirm";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import { useConfirm } from "@/features/categories/hooks/use-confirm";
+import { useUpdateCategory } from "@/features/categories/hooks/use-update-category";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
+
 
 type Props = {
   id: string;
@@ -21,11 +22,11 @@ type Props = {
 const Actions = ({ id }: Props) => {
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this transaction."
+    "You are about to delete this category."
   );
 
-  const { onOpen } = useUpdateAccount();
-  const deleteMutation = useDeleteAccount(id);
+  const { onOpen } = useUpdateCategory();
+  const deleteMutation = useDeleteCategory(id);
 
   const handleDelete = async () => {
     const ok = await confirm();
