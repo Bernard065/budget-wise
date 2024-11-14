@@ -42,6 +42,7 @@ const AccountForm = ({
   const handleDelete = () => {
     onDelete?.();
   };
+
   return (
     <Form {...form}>
       <form

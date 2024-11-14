@@ -7,6 +7,7 @@ import AccountSheet from "@/components/forms/AccountSheet";
 import CategorySheet from "@/components/forms/CategorySheet";
 import UpdateAccountSheet from "@/components/forms/UpdateAccountSheet";
 import UpdateCategorySheet from "@/components/forms/UpdateCategorySheet";
+import TransactionSheet from "@/components/forms/TransactionSheet";
 
 const SheetProvider = () => {
   const isMounted = useMountedState();
@@ -20,6 +21,8 @@ const SheetProvider = () => {
 
       <CategorySheet />
       <UpdateCategorySheet />
+
+      <TransactionSheet />
     </>
   );
 };

@@ -143,12 +143,17 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const data = await db.insert(transactions).values(
-        values.map((value) => ({
-          id: createId(),
-          ...value,
-        }))
-      );
+      const data = await db
+        .insert(transactions)
+        .values(
+          values.map((value) => ({
+            id: createId(),
+            ...value,
+          }))
+        )
+        .returning();
+
+      return c.json({ data });
     }
   )
   .post(
