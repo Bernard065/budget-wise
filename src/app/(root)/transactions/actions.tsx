@@ -10,9 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useUpdateAccount } from "@/features/accounts/hooks/use-update-account";
-import { useConfirm } from "@/features/accounts/hooks/use-confirm";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import { useConfirm } from "@/features/transactions/hooks/use-confirm";
+import { useUpdateTransaction } from "@/features/transactions/hooks/use-update-transaction";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
+
 
 type Props = {
   id: string;
@@ -24,8 +25,8 @@ const Actions = ({ id }: Props) => {
     "You are about to delete this transaction."
   );
 
-  const { onOpen } = useUpdateAccount();
-  const deleteMutation = useDeleteAccount(id);
+  const { onOpen } = useUpdateTransaction();
+  const deleteMutation = useDeleteTransaction(id);
 
   const handleDelete = async () => {
     const ok = await confirm();
