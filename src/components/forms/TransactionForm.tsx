@@ -184,7 +184,7 @@ const TransactionForm = ({
         />
 
         <Button className="bg-gray-700 rounded text-white">
-          {id ? "Save Changes" : "Create account"}
+          {id ? "Save Changes" : "Create transaction"}
         </Button>
 
         {!!id && (
