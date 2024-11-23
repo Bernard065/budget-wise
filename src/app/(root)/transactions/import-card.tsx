@@ -27,6 +27,28 @@ const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
   const header = data[0];
   const body = data.slice(1);
 
+  const handleTableHeadSelectChange = (
+    columnIndex: number,
+    value: string | null
+  ) => {
+    setSelectedColumns((prevState) => {
+      const newSelectedColumns = { ...prevState };
+
+      // Iterate through the keys in the object and update the value if it matches
+      for (const key in newSelectedColumns) {
+        if (newSelectedColumns[key] === value) {
+          newSelectedColumns[key] = null;
+        }
+      }
+
+      // Update the specific column index
+      newSelectedColumns[`column_${columnIndex}`] = value;
+
+      // Return the updated state
+      return newSelectedColumns;
+    });
+  };
+
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24 bg-light-900">
       <Card className="border-none drop-shadow-sm">
@@ -49,7 +71,7 @@ const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
             header={header}
             body={body}
             selectedColumns={selectedColumns}
-            onTableHeadSelectChange={() => {}}
+            onTableHeadSelectChange={handleTableHeadSelectChange}
           />
         </CardContent>
       </Card>
