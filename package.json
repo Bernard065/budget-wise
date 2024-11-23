@@ -52,6 +52,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-hook-form": "^7.53.1",
+    "react-papaparse": "^4.4.0",
     "react-select": "^5.8.3",
     "react-use": "^17.5.1",
     "sonner": "^1.7.0",
