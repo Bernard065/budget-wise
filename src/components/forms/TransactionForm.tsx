@@ -55,7 +55,14 @@ const TransactionForm = ({
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues,
+    defaultValues: {
+      date: defaultValues?.date ?? new Date(),
+      accountId: defaultValues?.accountId ?? "",
+      categoryId: defaultValues?.categoryId ?? "",
+      payee: defaultValues?.payee ?? "",
+      amount: defaultValues?.amount ?? "",
+      notes: defaultValues?.notes ?? "",
+    },
   });
 
   const handleSubmit = (values: FormValues) => {
