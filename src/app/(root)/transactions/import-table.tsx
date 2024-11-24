@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React from "react";
+import TableHeadSelect from "./table-head-select";
 
 type Props = {
   header: string[];
@@ -27,7 +28,13 @@ const ImportTable = ({
         <TableHeader className="bg-muted">
           <TableRow>
             {header.map((item, index) => (
-              <TableHead key={index}>{index}</TableHead>
+              <TableHead key={index}>
+                <TableHeadSelect
+                  index={index}
+                  selectedColumns={selectedColumns}
+                  onChange={onTableHeadSelectChange}
+                />
+              </TableHead>
             ))}
           </TableRow>
         </TableHeader>
