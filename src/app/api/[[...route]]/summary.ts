@@ -1,13 +1,13 @@
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
-import { differenceInDays, parse, subDays } from "date-fns";
+import { parse, subDays } from "date-fns";
 import { Hono } from "hono";
 import { z } from "zod";
 import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
 
 import { db } from "@/db";
 import { accounts, categories, transactions } from "@/db/schema";
-import { calculatePercentageChange } from "@/lib/utils";
+import { calculatePercentageChange, missingDays } from "@/lib/utils";
 
 const app = new Hono().get(
   "/",
@@ -36,9 +36,9 @@ const app = new Hono().get(
       : defaultFrom;
     const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
 
-    const periodLength = differenceInDays(endDate, startDate) + 1;
-    const lastPeriodStart = subDays(startDate, periodLength);
-    const lastPeriodEnd = subDays(endDate, periodLength);
+    // const periodLength = differenceInDays(endDate, startDate) + 1;
+    // const lastPeriodStart = subDays(startDate, periodLength);
+    // const lastPeriodEnd = subDays(endDate, periodLength);
 
     async function fetchFinancialData(
       userId: string,
@@ -129,13 +129,44 @@ const app = new Hono().get(
       });
     }
 
+    const activeDays = await db
+      .select({
+        date: transactions.date,
+        income:
+          sql`SUM(CASE WHEN ${transactions.amount} >= 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(
+            Number
+          ),
+        expenses:
+          sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(
+            Number
+          ),
+      })
+      .from(transactions)
+      .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+      .where(
+        and(
+          accountId ? eq(transactions.accountId, accountId) : undefined,
+          eq(accounts.userId, auth.userId),
+          gte(transactions.date, startDate),
+          lte(transactions.date, endDate)
+        )
+      )
+      .groupBy(transactions.date)
+      .orderBy(transactions.date);
+
+    const days = missingDays(activeDays, startDate, endDate);
+
     return c.json({
-      currentPeriod,
-      lastPeriod,
-      incomeChange,
-      expensesChange,
-      remainingChange,
-      finalCategories,
+      data: {
+        remainingAmount: currentPeriod.remaining,
+        remainingChange,
+        incomeAmount: currentPeriod.income,
+        incomeChange,
+        expensesAmount: currentPeriod.expenses,
+        expensesChange,
+        categories: finalCategories,
+        days,
+      },
     });
   }
 );
