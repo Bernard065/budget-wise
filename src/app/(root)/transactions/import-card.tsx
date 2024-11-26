@@ -20,7 +20,7 @@ interface SelectedColumnsState {
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
 
-const requiredOptions = ["payee", "amount", "date"];
+const requiredOptions = ["amount", "payee", "date"];
 
 const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
   const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>(
@@ -96,9 +96,13 @@ const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
 
     const formattedData = arrayOfData.map((item) => ({
       ...item,
-      amount: convertAmountToMiliunits(parseFloat(item.amount)),
-      date: format(parse(item.date, dateFormat, new Date()), outputFormat),
+      amount: convertAmountToMiliunits(parseFloat(item.amount || "0")),
+      date: item.date
+        ? format(parse(item.date, dateFormat, new Date()), outputFormat)
+        : null, // Handle missing or invalid dates
     }));
+
+    console.log("formattedData:", formattedData);
 
     onSubmit(formattedData);
   };
@@ -120,15 +124,7 @@ const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
             </Button>
             <Button
               disabled={progress < requiredOptions.length}
-              onClick={() =>
-                onSubmit(
-                  body.map((row) =>
-                    row.filter(
-                      (value, index) => selectedColumns[`column_${index}`]
-                    )
-                  )
-                )
-              }
+              onClick={handleContinue}
               size="sm"
               className="w-full bg-dark-200 text-white rounded lg:w-auto"
             >

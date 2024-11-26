@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useCSVReader } from "react-papaparse";
 
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 
 type Props = {
-  onUpload: (results) => void;
+  onUpload: (results: any) => void;
 };
 
 const UploadButton = ({ onUpload }: Props) => {
@@ -15,7 +16,7 @@ const UploadButton = ({ onUpload }: Props) => {
 
   return (
     <CSVReader onUploadAccepted={onUpload}>
-      {({ getRootProps }) => (
+      {({ getRootProps }: any) => (
         <Button
           size="sm"
           className="w-full lg:w-auto bg-dark-200 text-white"
