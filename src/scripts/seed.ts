@@ -118,9 +118,15 @@ const generateTransactionsForDay = (day: Date) => {
       SEED_CATEGORIES[Math.floor(Math.random() * SEED_CATEGORIES.length)];
     const isExpense = Math.random() > 0.6;
     const amount = generateRandomAmount(category);
-    const formattedAmount = convertAmountFromMiliunits(
-      isExpense ? -amount : amount
-    );
+    const formattedAmount = Math.round(
+      convertAmountFromMiliunits(isExpense ? -amount : amount)
+    ); // Ensure integer
+
+    // console.log("Inserting transaction:", {
+    //   day,
+    //   amount: formattedAmount,
+    //   category: category.name,
+    // });
 
     SEED_TRANSACTIONS.push({
       id: `transaction_${format(day, "yyyy-MM-dd")}_${i}`,
